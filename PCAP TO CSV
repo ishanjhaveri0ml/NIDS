@@ -1,0 +1,124 @@
+
+
+import subprocess
+import csv
+def convert_pcap_to_csv(pcap_file, output_csv):
+    tshark_path = r"C:\Program Files\Wireshark\tshark.exe"
+
+    command = [
+        tshark_path, '-r', pcap_file,
+        '-T', 'fields',
+        '-E', 'header=y',
+        '-E', 'separator=,',
+        '-E', 'quote=d',
+        '-E', 'occurrence=f',
+        '-e', 'frame.number',
+        '-e', 'frame.time',
+        '-e', 'frame.len',
+        '-e', 'frame.protocols',
+        '-e', 'eth.src',
+        '-e', 'eth.dst',
+        '-e', 'eth.type',
+        '-e', 'ip.version',
+        '-e', 'ip.hdr_len',
+        '-e', 'ip.tos',
+        '-e', 'ip.id',
+        '-e', 'ip.flags',
+        '-e', 'ip.flags.rb',
+        '-e', 'ip.flags.df',
+        '-e', 'ip.flags.mf',
+        '-e', 'ip.frag_offset',
+        '-e', 'ip.ttl',
+        '-e', 'ip.proto',
+        '-e', 'ip.checksum',
+        '-e', 'ip.src',
+        '-e', 'ip.dst',
+        '-e', 'ip.len',
+        '-e', 'ip.dsfield',
+        '-e', 'tcp.srcport',
+        '-e', 'tcp.dstport',
+        '-e', 'tcp.seq',
+        '-e', 'tcp.ack',
+        '-e', 'tcp.len',
+        '-e', 'tcp.hdr_len',
+        '-e', 'tcp.flags',
+        '-e', 'tcp.flags.fin',
+        '-e', 'tcp.flags.syn',
+        '-e', 'tcp.flags.reset',
+        '-e', 'tcp.flags.push',
+        '-e', 'tcp.flags.ack',
+        '-e', 'tcp.flags.urg',
+        '-e', 'tcp.flags.cwr',
+        '-e', 'tcp.window_size',
+        '-e', 'tcp.checksum',
+        '-e', 'tcp.urgent_pointer',
+        '-e', 'tcp.options.mss_val',
+        '-e', 'udp.srcport',
+        '-e', 'udp.dstport',
+        '-e', 'udp.length',
+        '-e', 'udp.checksum',
+        '-e', 'icmp.type',
+        '-e', 'icmp.code',
+        '-e', 'icmp.checksum',
+        '-e', 'icmp.seq',
+        '-e', 'arp.opcode',
+        '-e', 'arp.src.hw_mac',
+        '-e', 'arp.src.proto_ipv4',
+        '-e', 'arp.dst.hw_mac',
+        '-e', 'arp.dst.proto_ipv4',
+        '-e', 'dns.id',
+        '-e', 'dns.flags.response',
+        '-e', 'dns.flags.opcode',
+        '-e', 'dns.flags.rcode',
+        '-e', 'dns.qry.name',
+        '-e', 'dns.qry.type',
+        '-e', 'dns.qry.class',
+        '-e', 'dns.count.queries',
+        '-e', 'dns.count.answers',
+        '-e', 'dns.count.auth_rr',
+        '-e', 'dns.count.add_rr',
+        '-e', 'http.request.method',
+        '-e', 'http.request.uri',
+        '-e', 'http.request.version',
+        '-e', 'http.user_agent',
+        '-e', 'http.host',
+        '-e', 'http.request.full_uri',
+        '-e', 'http.response.code',
+        '-e', 'http.response.phrase',
+        '-e', 'http.content_type',
+        '-e', 'http.content_length',
+        '-e', 'http.server',
+        '-e', 'http.connection',
+        '-e', 'http.cache_control',
+        '-e', 'http.date',
+        '-e', 'http.location',
+        '-e', 'http.referer',
+        '-e', 'http.accept',
+        '-e', 'http.accept_encoding',
+        '-e', 'http.accept_language',
+        '-e', 'http.cookie',
+        '-e', 'http.set_cookie',
+        '-e', 'ssl.handshake.type',
+        '-e', 'ssl.handshake.version',
+        '-e', 'ssl.handshake.ciphersuite',
+        '-e', 'ssl.handshake.extensions_server_name'
+    ]
+
+    try:
+        # Execute tshark command and capture output
+        output = subprocess.check_output(command, universal_newlines=True)
+
+        # Write output to CSV file
+        with open(output_csv, 'w', newline='') as csvfile:
+            csvfile.write(output)
+        print(f"PCAP file converted to CSV: {output_csv}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing tshark command: {e}")
+        return None
+
+# clumsy_benz_9858
+pcap_file = r"D:\CVE-2012-2122\training\wonderful_elgamal_4133\wonderful_elgamal_4133.pcap"
+output_csv = r"D:\CVE-2012-2122_CSV\training\wonderful_elgamal_4133.csv"
+convert_pcap_to_csv(pcap_file, output_csv)
+
+
